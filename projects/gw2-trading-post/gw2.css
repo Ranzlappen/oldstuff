@@ -1,0 +1,46 @@
+/* GW2 Trading Post — results table and coin prices. */
+
+.gw2-lede { max-width: 48rem; }
+.gw2-hint { margin: var(--space-md) 0 0; }
+.gw2-footnote { margin-top: var(--space-lg); }
+
+.gw2-results { margin-top: var(--space-lg); max-height: 70vh; overflow: auto; }
+
+/* The table is wide (15 columns); keep the first two readable while scrolling. */
+#results th:first-child,
+#results td:first-child { position: sticky; left: 0; z-index: 2; background: var(--c-surface); }
+#results thead th:first-child { z-index: 3; background: var(--c-surface-alt); }
+#results tbody tr:hover td:first-child { background: var(--c-bg-alt); }
+
+#results td { white-space: nowrap; }
+.gw2-num { text-align: right; }
+#results td.gw2-num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.gw2-sort {
+  font: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.gw2-sort:hover { color: var(--c-accent); }
+.gw2-sort::after { content: ''; opacity: 0.5; margin-left: 0.35em; }
+th[aria-sort="ascending"]  .gw2-sort::after { content: '▲'; opacity: 1; }
+th[aria-sort="descending"] .gw2-sort::after { content: '▼'; opacity: 1; }
+
+/* Coin sprites, sized to the text they sit in. */
+.coin {
+  width: 0.95em;
+  height: 0.95em;
+  vertical-align: -0.12em;
+  margin: 0 0.05em 0 0.15em;
+}
+.price { font-variant-numeric: tabular-nums; }
+.price--none { color: var(--c-text-faint); }
+
+.gw2-busy { color: var(--c-text-muted); font-size: 0.9rem; margin: var(--space-md) 0 0; }

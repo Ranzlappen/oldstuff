@@ -1,0 +1,109 @@
+/* Dice Cube — 3D stage + edge controls. */
+
+.dice-stage {
+  position: relative;
+  width: 100%;
+  height: min(72vh, 40rem);
+  min-height: 20rem;
+  perspective: 1400px;
+  background:
+    radial-gradient(circle at 50% 45%, var(--c-bg-alt) 0%, var(--c-bg) 70%);
+  border-bottom: 1px solid var(--c-border-light);
+  overflow: hidden;
+}
+
+.dice-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* --size drives the faces' translateZ, so the cube stays cubic at any viewport. */
+.dice-cube {
+  --size: min(38vh, 38vw, 16rem);
+  position: relative;
+  width: calc(var(--size) * 2);
+  height: calc(var(--size) * 2);
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg);
+  transition: transform 0.55s cubic-bezier(0.34, 1.2, 0.5, 1);
+}
+
+.dice-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(150deg, var(--c-surface-alt), var(--c-surface));
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.35);
+  backface-visibility: hidden;
+}
+.dice-face span { font-size: calc(var(--size) * 0.9); line-height: 1; }
+
+.dice-face--front  { transform: translateZ(var(--size)); }
+.dice-face--back   { transform: rotateY(180deg) translateZ(var(--size)); }
+.dice-face--right  { transform: rotateY(90deg)   translateZ(var(--size)); }
+.dice-face--left   { transform: rotateY(-90deg)  translateZ(var(--size)); }
+.dice-face--top    { transform: rotateX(90deg)   translateZ(var(--size)); }
+.dice-face--bottom { transform: rotateX(-90deg)  translateZ(var(--size)); }
+
+/* Controls hug the stage edges the way the original's full-height strips did,
+   but as normal-sized buttons rather than invisible screen-wide hit areas. */
+.dice-controls { position: absolute; inset: 0; pointer-events: none; }
+
+.dice-btn {
+  position: absolute;
+  pointer-events: auto;
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  min-width: 3rem;
+  min-height: 3rem;
+  padding: 0.6rem 1rem;
+  color: var(--c-text-muted);
+  background: rgba(21, 32, 27, 0.82);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.dice-btn:hover {
+  color: var(--c-accent);
+  border-color: var(--c-accent-border);
+  background: var(--c-accent-bg);
+}
+
+.dice-btn--up    { top: var(--space-md); left: 50%; transform: translateX(-50%); }
+.dice-btn--down  { bottom: var(--space-md); left: 50%; transform: translateX(-50%); }
+.dice-btn--left  { left: var(--space-md); top: 50%; transform: translateY(-50%); }
+.dice-btn--right { right: var(--space-md); top: 50%; transform: translateY(-50%); }
+.dice-btn--roll {
+  top: var(--space-md);
+  left: var(--space-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dice-status {
+  position: absolute;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--c-text-faint);
+}
+
+.dice-about { padding-top: var(--space-xl); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dice-cube { transition-duration: 0.01ms; }
+}

@@ -1,0 +1,54 @@
+/* Barcode Scanner — camera viewport and row list. */
+
+.scan-viewport {
+  position: relative;
+  margin-top: var(--space-md);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 4 / 3;
+}
+/* Quagga injects its own <video> and two overlay <canvas> elements. */
+.scan-viewport > video,
+.scan-viewport > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+/* The "drawingBuffer" canvas carries the detection overlay; the other is
+   Quagga's internal scratch buffer and should stay hidden. */
+.scan-viewport > canvas:not(.drawingBuffer) { display: none; }
+
+.scan-viewport::after {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 2px;
+  background: var(--c-accent);
+  opacity: 0.7;
+  box-shadow: 0 0 12px var(--c-accent);
+  pointer-events: none;
+}
+
+.scan-formats {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+}
+.scan-formats input { width: auto; }
+
+#rows td { vertical-align: middle; }
+#rows input { font-size: 0.85rem; }
+#rows input[type="number"] { text-align: right; }
+.scan-empty { margin: var(--space-md) 0 0; }
+.scan-flash { animation: scan-flash 0.6s ease-out; }
+@keyframes scan-flash { from { background: var(--c-accent-bg); } to { background: transparent; } }
+@media (prefers-reduced-motion: reduce) { .scan-flash { animation: none; } }

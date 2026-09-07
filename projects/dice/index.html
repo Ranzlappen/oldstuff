@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dice Cube — old.ranzlappen.com</title>
+<meta name="description" content="A CSS-3D cube you tumble face to face, or spin at random.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="dice.css">
+</head>
+<body>
+
+<main id="main">
+  <div class="dice-stage" id="stage">
+
+    <div class="dice-scene">
+      <div class="dice-cube" id="cube">
+        <div class="dice-face dice-face--front"  data-face="front"><span>🤡</span></div>
+        <div class="dice-face dice-face--back"   data-face="back"><span>🤔</span></div>
+        <div class="dice-face dice-face--left"   data-face="left"><span>😁</span></div>
+        <div class="dice-face dice-face--right"  data-face="right"><span>😒</span></div>
+        <div class="dice-face dice-face--top"    data-face="top"><span>😉</span></div>
+        <div class="dice-face dice-face--bottom" data-face="bottom"><span>🤦</span></div>
+      </div>
+    </div>
+
+    <div class="dice-controls">
+      <button class="dice-btn dice-btn--up"     data-turn="up"    aria-label="Tilt up">↑</button>
+      <button class="dice-btn dice-btn--left"   data-turn="left"  aria-label="Turn left">←</button>
+      <button class="dice-btn dice-btn--right"  data-turn="right" aria-label="Turn right">→</button>
+      <button class="dice-btn dice-btn--down"   data-turn="down"  aria-label="Tilt down">↓</button>
+      <button class="dice-btn dice-btn--roll"   id="roll" aria-label="Roll the cube">Roll</button>
+    </div>
+
+    <p class="dice-status" id="status" role="status" aria-live="polite">Showing 🤡</p>
+  </div>
+
+  <section class="wrap wrap--narrow dice-about">
+    <h1>Dice Cube</h1>
+    <p class="muted">
+      Six emoji faces on a CSS-3D cube. The arrow buttons tumble it one quarter
+      turn at a time; <strong>Roll</strong> throws it into a chaotic spin and
+      lands on a random face. Arrow keys work too, and <kbd>Space</kbd> rolls.
+    </p>
+    <p class="small faint">
+      Originally <code>public_html/Project0/wurfel.html</code>. It was already
+      pure HTML, CSS and JavaScript, so nothing had to be converted — the face
+      bookkeeping was rewritten to derive orientation from the cube's actual
+      rotation instead of a hand-written lookup table, which fixes the two
+      "left2"/"back2" special cases the original needed.
+    </p>
+  </section>
+</main>
+
+<script src="/assets/js/chrome.js" data-project="Dice Cube"></script>
+<script src="dice.js"></script>
+</body>
+</html>

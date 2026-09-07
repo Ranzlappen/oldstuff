@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW2 Trading Post — old.ranzlappen.com</title>
+<meta name="description" content="Look up Guild Wars 2 trading post buy and sell listings by item name or ID, with a per-item cost divisor.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="gw2.css">
+</head>
+<body>
+
+<main id="main" class="wrap">
+
+  <h1>GW2 Trading Post</h1>
+
+  <p class="muted gw2-lede">
+    Enter Guild Wars 2 item names or IDs, separated by commas. The lookup pulls
+    the top three buy and sell listings for each from the official
+    <a href="https://wiki.guildwars2.com/wiki/API:Main">Guild Wars 2 API</a>.
+  </p>
+  <p class="muted gw2-lede">
+    Append <code>;n</code> to an item to divide its prices by <code>n</code> —
+    handy when an item costs <code>n</code> of something to acquire, because the
+    divided price is then directly comparable across items. Sort by a sell
+    column to see which conversion pays best.
+  </p>
+
+  <div class="panel">
+    <div class="field">
+      <label for="items">Items</label>
+      <input type="text" id="items" autocomplete="off"
+             placeholder="The Bifrost, The Moot   —   or with a divisor:  Mini Jotun;2, Mini Sieran;15">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn--primary" id="lookup">Look up listings</button>
+      <button class="btn" data-preset="minis">Load: Black Lion minis</button>
+      <button class="btn" data-preset="legendaries">Load: legendaries</button>
+      <button class="btn" id="clear">Clear</button>
+    </div>
+    <p class="small faint gw2-hint" id="hint">
+      Item names and IDs come from a snapshot bundled with this page; only the
+      price lookup hits the network, one request per click.
+    </p>
+  </div>
+
+  <div id="feedback" role="status" aria-live="polite"></div>
+
+  <div class="table-wrap gw2-results hidden" id="results-wrap">
+    <table class="data" id="results">
+      <thead>
+        <tr>
+          <th data-sort="text"><button class="gw2-sort" type="button">ID</button></th>
+          <th data-sort="text"><button class="gw2-sort" type="button">Name</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Buy qty 1</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Buy 1</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Buy qty 2</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Buy 2</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Buy qty 3</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Buy 3</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Sell qty 1</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Sell 1</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Sell qty 2</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Sell 2</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Sell qty 3</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">Sell 3</button></th>
+          <th data-sort="num" class="gw2-num"><button class="gw2-sort" type="button">÷</button></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <p class="small faint gw2-footnote">
+    Originally <code>public_html/Project2/gw2.html</code>. Already client-side —
+    refurbished rather than converted.
+  </p>
+
+</main>
+
+<script src="/assets/js/chrome.js" data-project="GW2 Trading Post"></script>
+<script src="gw2.js"></script>
+</body>
+</html>

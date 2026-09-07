@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>old.ranzlappen.com — project archive</title>
+<meta name="description" content="An archive of the projects that ran on the original ranzlappen.com — dice, sheet music, card games, tools — rebuilt to run entirely in the browser.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="/assets/css/hub.css">
+</head>
+<body>
+
+<main id="main" class="wrap">
+
+  <header class="hub-hero">
+    <h1>The old stuff</h1>
+    <p class="hub-hero__lede">
+      Everything here ran on the original <a href="https://ranzlappen.com">ranzlappen.com</a>
+      before it became a Jekyll blog — a pile of hand-written HTML, jQuery-era
+      JavaScript and PHP talking to a MySQL database on shared hosting.
+    </p>
+    <p class="hub-hero__lede">
+      That server is gone. These pages are hosted on GitHub Pages, which serves
+      static files and nothing else, so every project that needed PHP has been
+      rewritten to run in your browser instead. Same features, no backend —
+      see <a href="/about.html">how the conversion works</a>.
+    </p>
+  </header>
+
+  <div class="hub-controls">
+    <label class="visually-hidden" for="hub-search">Filter projects</label>
+    <input type="search" id="hub-search" placeholder="Filter projects…" autocomplete="off">
+    <div class="hub-tabs" role="tablist" aria-label="Project categories">
+      <button class="hub-tab is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button class="hub-tab" data-filter="game" role="tab" aria-selected="false">Games</button>
+      <button class="hub-tab" data-filter="tool" role="tab" aria-selected="false">Tools</button>
+      <button class="hub-tab" data-filter="ported" role="tab" aria-selected="false">Was PHP</button>
+    </div>
+    <span class="hub-count faint small" id="hub-count"></span>
+  </div>
+
+  <ul class="hub-grid" id="hub-grid">
+
+    <li class="hub-card" data-tags="game tool" data-name="Dice Cube">
+      <a class="hub-card__link" href="/projects/dice/">
+        <span class="hub-card__icon" aria-hidden="true">🎲</span>
+        <h2 class="hub-card__title">Dice Cube</h2>
+        <p class="hub-card__desc">
+          A CSS-3D cube you tumble face to face with edge buttons, or spin at
+          random. Six emoji faces, no library.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--js">Always JS</span>
+          <span class="faint">was <code>Project0/wurfel.html</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool" data-name="Sheet Music Editor">
+      <a class="hub-card__link" href="/projects/sheet-music/">
+        <span class="hub-card__icon" aria-hidden="true">🎼</span>
+        <h2 class="hub-card__title">Sheet Music Editor</h2>
+        <p class="hub-card__desc">
+          Drop Unicode music glyphs onto printable A4 staves, drag them around,
+          save and reload the score as XML.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--js">Always JS</span>
+          <span class="faint">was <code>Project1/Sheet.html</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool" data-name="GW2 Trading Post">
+      <a class="hub-card__link" href="/projects/gw2-trading-post/">
+        <span class="hub-card__icon" aria-hidden="true">⚔️</span>
+        <h2 class="hub-card__title">GW2 Trading Post</h2>
+        <p class="hub-card__desc">
+          Look up Guild Wars 2 item buy/sell listings by name or ID, divide
+          prices by a per-item cost, and sort to find the best conversion.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--js">Always JS</span>
+          <span class="faint">was <code>Project2/gw2.html</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool" data-name="Barcode Scanner">
+      <a class="hub-card__link" href="/projects/barcode-scanner/">
+        <span class="hub-card__icon" aria-hidden="true">📷</span>
+        <h2 class="hub-card__title">Barcode Scanner</h2>
+        <p class="hub-card__desc">
+          Scan EAN, UPC and Code 128 barcodes with the device camera, build a
+          quantity list and export it as CSV.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--js">Always JS</span>
+          <span class="faint">was <code>barcode/barcode.html</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool ported" data-name="Code Snippet Database">
+      <a class="hub-card__link" href="/projects/code-database/">
+        <span class="hub-card__icon" aria-hidden="true">🗃️</span>
+        <h2 class="hub-card__title">Code Snippet Database</h2>
+        <p class="hub-card__desc">
+          Store snippets by language with two free-text fields, filter across
+          all columns, and preview any HTML snippet in a sandboxed frame.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--php">MySQL → localStorage</span>
+          <span class="faint">was <code>Project5/index.php</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool ported" data-name="3D Container Packing">
+      <a class="hub-card__link" href="/projects/packing-3d/">
+        <span class="hub-card__icon" aria-hidden="true">📦</span>
+        <h2 class="hub-card__title">3D Container Packing</h2>
+        <p class="hub-card__desc">
+          Set a container size, add boxes, and watch a shelf-packing pass lay
+          them out in an orbitable Three.js scene.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--php">PHP session → localStorage</span>
+          <span class="faint">was <code>Project6/index.php</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool ported" data-name="File Vault">
+      <a class="hub-card__link" href="/projects/file-vault/">
+        <span class="hub-card__icon" aria-hidden="true">🗄️</span>
+        <h2 class="hub-card__title">File Vault</h2>
+        <p class="hub-card__desc">
+          Upload files, mark them private or released, and download them back.
+          Storage moved from the server's <code>uploads/</code> to IndexedDB.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--php">MySQL + uploads → IndexedDB</span>
+          <span class="faint">was <code>Project3/</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool ported" data-name="Live HTML Editor">
+      <a class="hub-card__link" href="/projects/web-editor/">
+        <span class="hub-card__icon" aria-hidden="true">🧑‍💻</span>
+        <h2 class="hub-card__title">Live HTML Editor</h2>
+        <p class="hub-card__desc">
+          Type HTML and CSS, see it render live, click elements in the preview
+          to apply style presets, and export the result as a file.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--php">PHP zip → in-browser export</span>
+          <span class="faint">was <code>devtools_project/</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool ported" data-name="Minecraft Command Console">
+      <a class="hub-card__link" href="/projects/minecraft-command/">
+        <span class="hub-card__icon" aria-hidden="true">⛏️</span>
+        <h2 class="hub-card__title">Minecraft Command Console</h2>
+        <p class="hub-card__desc">
+          The original piped commands into a server's screen session. Now it's
+          a command builder: compose, validate and copy commands to run yourself.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--php">shell_exec → builder</span>
+          <span class="faint">was <code>Project4/</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="tool ported" data-name="Secret Image">
+      <a class="hub-card__link" href="/projects/secret-image/">
+        <span class="hub-card__icon" aria-hidden="true">🔐</span>
+        <h2 class="hub-card__title">Secret Image</h2>
+        <p class="hub-card__desc">
+          A passphrase gate in front of a picture. Rebuilt honestly: the image
+          is genuinely encrypted with the passphrase, not just hidden by CSS.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--php">PHP session → WebCrypto</span>
+          <span class="faint">was <code>test/index.php</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="game ported" data-name="Rommé">
+      <a class="hub-card__link" href="/projects/romme/">
+        <span class="hub-card__icon" aria-hidden="true">🃏</span>
+        <h2 class="hub-card__title">Rommé</h2>
+        <p class="hub-card__desc">
+          The free-form Rommé table: 106 cards you drag anywhere, a shared draw
+          pile, and a hand only you can see. Now synced across browser tabs.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--game">MySQL polling → cross-tab</span>
+          <span class="faint">was <code>Project7/</code>, <code>Project10/</code>, <code>Romme/</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="game ported" data-name="Siedler Resource Table">
+      <a class="hub-card__link" href="/projects/siedler/">
+        <span class="hub-card__icon" aria-hidden="true">🏘️</span>
+        <h2 class="hub-card__title">Siedler Resource Table</h2>
+        <p class="hub-card__desc">
+          The resource-and-building bookkeeper for a game of Settlers: five
+          resource decks, dice, the robber, and a live count per player.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--game">MySQL polling → cross-tab</span>
+          <span class="faint">was <code>Project8/</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="game ported" data-name="Skat">
+      <a class="hub-card__link" href="/projects/skat/">
+        <span class="hub-card__icon" aria-hidden="true">♠️</span>
+        <h2 class="hub-card__title">Skat</h2>
+        <p class="hub-card__desc">
+          Three seats, a 32-card deck, a two-card Skat and a trick area — the
+          table furniture for a hand of Skat, with scoring left to the players.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--game">MySQL polling → cross-tab</span>
+          <span class="faint">was <code>Skat/</code></span>
+        </p>
+      </a>
+    </li>
+
+    <li class="hub-card" data-tags="game ported" data-name="Game Lobby">
+      <a class="hub-card__link" href="/projects/lobby/">
+        <span class="hub-card__icon" aria-hidden="true">🎮</span>
+        <h2 class="hub-card__title">Game Lobby</h2>
+        <p class="hub-card__desc">
+          The front desk that sat in front of the games: pick a name, join a
+          group, and see who else is at the table right now.
+        </p>
+        <p class="hub-card__meta">
+          <span class="badge badge--game">MySQL sessions → cross-tab</span>
+          <span class="faint">was <code>Project9/</code></span>
+        </p>
+      </a>
+    </li>
+
+  </ul>
+
+  <p class="hub-empty hidden" id="hub-empty">No project matches that filter.</p>
+
+</main>
+
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/hub.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About the archive — old.ranzlappen.com</title>
+<meta name="description" content="Why these projects exist, and how the PHP ones were converted to run on GitHub Pages.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+</head>
+<body>
+
+<main id="main" class="wrap wrap--narrow">
+
+  <h1>About this archive</h1>
+
+  <p class="muted">
+    <a href="https://ranzlappen.com">ranzlappen.com</a> used to be a folder of
+    hand-written pages on shared hosting: <code>public_html/Project0</code>
+    through <code>Project10</code>, plus a few strays. Some were plain HTML and
+    JavaScript. Most of the interesting ones were PHP talking to MySQL.
+  </p>
+  <p class="muted">
+    The site has since been rebuilt as a Jekyll blog on GitHub Pages, and the
+    old hosting is gone. This subdomain keeps the projects alive.
+  </p>
+
+  <h2>The constraint</h2>
+
+  <p>
+    GitHub Pages serves static files. There is no PHP interpreter, no database,
+    no writable disk, no sessions. Anything the old code did on the server has
+    to happen in your browser instead — or not at all.
+  </p>
+
+  <h2>How each kind of backend was replaced</h2>
+
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr><th>The original did…</th><th>Now it…</th><th>Affects</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>$_SESSION</code> for form state across page loads</td>
+          <td>Keeps the same state in <code>localStorage</code>, so a reload
+              still finds your work</td>
+          <td>3D Packing, Secret Image</td>
+        </tr>
+        <tr>
+          <td>MySQL <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code>
+              behind a form post</td>
+          <td>Writes rows to <code>localStorage</code> through a small store
+              that mimics auto-increment ids and timestamps</td>
+          <td>Code Snippet Database, Game Lobby</td>
+        </tr>
+        <tr>
+          <td>File uploads into <code>uploads/</code> plus a
+              <code>files</code> table</td>
+          <td>Stores the actual blobs in IndexedDB and lists them from there</td>
+          <td>File Vault</td>
+        </tr>
+        <tr>
+          <td>Every player's page polling MySQL every few seconds for the
+              shared board</td>
+          <td>Holds one shared state object and pushes changes to every open
+              tab over a <code>BroadcastChannel</code></td>
+          <td>Rommé, Siedler, Skat</td>
+        </tr>
+        <tr>
+          <td>Server-side ZIP building for a download</td>
+          <td>Builds the same file in the page and hands it to you as a
+              <code>Blob</code></td>
+          <td>Live HTML Editor</td>
+        </tr>
+        <tr>
+          <td><code>shell_exec()</code> into a game server's terminal</td>
+          <td>Can't, and shouldn't. Became a command builder that composes the
+              command for you to run yourself</td>
+          <td>Minecraft Command Console</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What that changes for you</h2>
+
+  <ul>
+    <li>
+      <strong>Your data stays on your machine.</strong> Nothing here has a
+      server to send anything to. Clearing site data for this domain wipes every
+      project's saved state.
+    </li>
+    <li>
+      <strong>Multiplayer means multi-tab.</strong> The card and board games
+      share a table between tabs of the same browser. Open one window per
+      player, or pass a laptop around. They no longer sync between different
+      devices, because there is nothing in the middle to sync through.
+    </li>
+    <li>
+      <strong>Logins are gone.</strong> The old accounts, approval emails and
+      admin dashboards guarded a shared database. With no shared database there
+      is nothing to guard, so the projects that had a login now just start.
+    </li>
+  </ul>
+
+  <h2>Two things that were quietly broken</h2>
+
+  <p>
+    The originals are archived as-is in the repository, but two behaviours were
+    not worth reproducing faithfully:
+  </p>
+
+  <ul>
+    <li>
+      <strong>The password-gated image</strong> checked a passphrase in PHP and
+      then served the file — but also unlocked itself for anyone who put
+      <code>?12345?</code> in the URL. The rebuild encrypts the image with
+      AES-GCM using a key derived from the passphrase, so a wrong passphrase
+      genuinely cannot produce the picture.
+    </li>
+    <li>
+      <strong>The Minecraft console</strong> passed user input into
+      <code>shell_exec()</code>. It is not reproduced. The page builds commands
+      for you to paste instead.
+    </li>
+  </ul>
+
+  <h2>Source</h2>
+
+  <p>
+    Everything is in
+    <a href="https://github.com/Ranzlappen/oldstuff">github.com/Ranzlappen/oldstuff</a>.
+    Each project directory carries a <code>NOTES.md</code> recording what the
+    original did and what changed.
+  </p>
+
+</main>
+
+<script src="/assets/js/chrome.js"></script>
+</body>
+</html>

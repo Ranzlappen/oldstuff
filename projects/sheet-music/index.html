@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sheet Music Editor — old.ranzlappen.com</title>
+<meta name="description" content="Place Unicode music glyphs on printable A4 staves, drag them into position, and save the score.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="sheet.css">
+</head>
+<body data-no-chrome>
+
+<div class="sheet-app">
+
+  <aside class="sheet-toolbar" id="toolbar">
+    <h1 class="sheet-toolbar__title">Sheet Music</h1>
+
+    <section class="sheet-group">
+      <h2 class="sheet-group__label">Pages</h2>
+      <div class="sheet-tools">
+        <button class="sheet-tool" data-action="add-page" title="Add a page">＋</button>
+        <button class="sheet-tool" data-action="remove-page" title="Remove the last page">－</button>
+        <button class="sheet-tool" data-action="print" title="Print / save as PDF">🖨</button>
+      </div>
+    </section>
+
+    <section class="sheet-group">
+      <h2 class="sheet-group__label">Selected</h2>
+      <div class="sheet-tools">
+        <button class="sheet-tool" data-action="nudge-up"    title="Move up (↑)">↑</button>
+        <button class="sheet-tool" data-action="nudge-left"  title="Move left (←)">←</button>
+        <button class="sheet-tool" data-action="nudge-right" title="Move right (→)">→</button>
+        <button class="sheet-tool" data-action="nudge-down"  title="Move down (↓)">↓</button>
+        <button class="sheet-tool" data-action="rotate"      title="Rotate 90° (R)">⟳</button>
+        <button class="sheet-tool" data-action="bigger"      title="Larger (+)">＋</button>
+        <button class="sheet-tool" data-action="smaller"     title="Smaller (−)">－</button>
+        <button class="sheet-tool" data-action="delete"      title="Delete (Del)">🗑</button>
+      </div>
+    </section>
+
+    <section class="sheet-group">
+      <h2 class="sheet-group__label">Lock</h2>
+      <div class="sheet-tools">
+        <button class="sheet-tool" data-toggle="lockSymbols" title="Lock all symbols">🔒</button>
+        <button class="sheet-tool" data-toggle="lockText" title="Lock all text fields">📕</button>
+      </div>
+    </section>
+
+    <section class="sheet-group">
+      <h2 class="sheet-group__label">File</h2>
+      <div class="sheet-tools">
+        <button class="sheet-tool" data-action="save" title="Save score to a file">💾</button>
+        <button class="sheet-tool" data-action="open" title="Open a saved score">📥</button>
+        <button class="sheet-tool" data-action="clear" title="Start a new, empty score">🧹</button>
+      </div>
+      <input type="file" id="file-input" accept=".json,.xml" hidden>
+    </section>
+
+    <section class="sheet-group sheet-group--palette">
+      <h2 class="sheet-group__label">
+        Symbols
+        <button class="sheet-clear-symbol" data-action="deselect-symbol" title="Stop placing">✕</button>
+      </h2>
+      <div class="sheet-palette" id="palette"><!-- built by sheet.js --></div>
+    </section>
+
+    <p class="sheet-hint" id="hint">Pick a symbol, then click a stave to place it.</p>
+    <p class="sheet-back"><a href="/">← back to the archive</a></p>
+  </aside>
+
+  <main class="sheet-pages" id="pages" aria-label="Score"></main>
+
+</div>
+
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/store.js"></script>
+<script src="sheet.js"></script>
+</body>
+</html>

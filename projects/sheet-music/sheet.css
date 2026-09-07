@@ -1,0 +1,207 @@
+/* ==========================================================================
+   Sheet Music Editor
+   A fixed toolbar beside a scrollable run of A4 pages. The pages themselves
+   stay white and print-accurate; only the chrome around them is themed.
+   ========================================================================== */
+
+.sheet-app { display: flex; min-height: 100vh; }
+
+/* ── Toolbar ───────────────────────────────────────────────────────────── */
+
+.sheet-toolbar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 15rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  overflow-y: auto;
+  background: var(--c-bg-alt);
+  border-right: 1px solid var(--c-border-light);
+}
+
+.sheet-toolbar__title { font-size: 1rem; margin: 0; }
+
+.sheet-group { margin: 0; }
+.sheet-group__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-text-faint);
+  margin: 0 0 var(--space-xs);
+}
+
+.sheet-tools, .sheet-palette { display: flex; flex-wrap: wrap; gap: 3px; }
+
+.sheet-tool, .sheet-symbol, .sheet-clear-symbol {
+  font: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--c-text);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-light);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+}
+.sheet-tool:hover, .sheet-symbol:hover {
+  border-color: var(--c-accent-border);
+  background: var(--c-accent-bg);
+  color: var(--c-accent);
+}
+.sheet-tool.is-on {
+  background: var(--c-accent-bg);
+  border-color: var(--c-accent-border);
+  color: var(--c-accent);
+}
+.sheet-symbol.is-active {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: #06140c;
+}
+/* Music glyphs need a font that actually has them; the fallback chain ends at
+   the generic serif, which covers the range on most systems. */
+.sheet-symbol {
+  font-family: 'Bravura', 'Noto Music', 'Segoe UI Symbol', 'Apple Symbols', serif;
+  font-size: 1.25rem;
+}
+
+.sheet-clear-symbol {
+  width: 1.4rem; height: 1.4rem;
+  font-size: 0.7rem;
+  color: var(--c-text-faint);
+}
+
+.sheet-group--palette { flex: 1; min-height: 0; }
+
+.sheet-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--c-text-faint);
+  line-height: 1.4;
+}
+.sheet-back { margin: 0; font-size: 0.78rem; }
+
+/* ── Pages ─────────────────────────────────────────────────────────────── */
+
+.sheet-pages {
+  flex: 1;
+  margin-left: 15rem;
+  padding: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  align-content: flex-start;
+  background: #1a1a1a;
+}
+
+.a4-page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  flex: none;
+  background: #fff url('staff.png') no-repeat center / 100% 100%;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  color: #000;
+}
+
+/* Twelve lyric/annotation lines, one under each stave. Positions match the
+   staff.png artwork, so they are absolute pixel offsets rather than a grid. */
+.a4-page .text-field {
+  position: absolute;
+  left: 69px;
+  width: 650px;
+  padding: 1px 3px;
+  font-size: 14px;
+  color: #000;
+  background: transparent;
+  border: 1px solid #6eefba;
+  border-radius: 0;
+}
+.a4-page .text-field:focus-visible { outline: 2px solid #2563eb; outline-offset: 0; }
+.sheet-app.is-text-locked .text-field { pointer-events: none; border-color: transparent; }
+
+.symbol {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  line-height: 1;
+  transform-origin: center;
+  white-space: nowrap;
+  font-family: 'Bravura', 'Noto Music', 'Segoe UI Symbol', 'Apple Symbols', serif;
+}
+.symbol.is-dragging { cursor: grabbing; }
+.symbol.is-selected { outline: 2px solid #2563eb; outline-offset: 2px; }
+.sheet-app.is-symbols-locked .symbol { pointer-events: none; }
+
+/* ── Narrow screens ────────────────────────────────────────────────────── */
+
+@media (max-width: 55rem) {
+  .sheet-app { flex-direction: column; }
+  .sheet-toolbar {
+    position: static;
+    width: auto;
+    inset: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--c-border-light);
+  }
+  .sheet-group--palette { flex: none; }
+  .sheet-palette { max-height: 8rem; overflow-y: auto; }
+  .sheet-pages { margin-left: 0; padding: var(--space-md); }
+  /* An A4 page is wider than a phone; scale it down as a whole so the glyph
+     sizes stay proportional. The original scaled the page but not the symbols,
+     which is the "symbol size bugged on mobile" note in its own TODO list. */
+  .a4-page {
+    transform: scale(var(--page-scale, 1));
+    transform-origin: top left;
+    margin-right: calc(210mm * (var(--page-scale, 1) - 1));
+    margin-bottom: calc(297mm * (var(--page-scale, 1) - 1));
+  }
+}
+
+/* ── Print ─────────────────────────────────────────────────────────────── */
+
+@page { size: A4; margin: 0; }
+
+@media print {
+  .sheet-toolbar, .skip-link, .toast-host { display: none !important; }
+  .sheet-app { display: block; }
+  .sheet-pages {
+    display: block;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    background: #fff;
+  }
+  .a4-page {
+    /* One page per sheet, no shadow, no scaling — the original printed the
+       flex gaps too and pushed every second page onto a blank sheet. */
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    box-shadow: none;
+    transform: none;
+    break-after: page;
+    page-break-after: always;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .a4-page:last-child { break-after: auto; page-break-after: auto; }
+  .a4-page .text-field { border-color: transparent; }
+  .symbol.is-selected { outline: none; }
+}

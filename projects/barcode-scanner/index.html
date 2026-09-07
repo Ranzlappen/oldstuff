@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barcode Scanner — old.ranzlappen.com</title>
+<meta name="description" content="Scan EAN, UPC and Code 128 barcodes with the device camera and export the list as CSV.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="barcode.css">
+</head>
+<body>
+
+<main id="main" class="wrap wrap--narrow">
+
+  <h1>Barcode Scanner</h1>
+  <p class="muted">
+    Point the camera at a barcode. Each scan adds a row; scanning the same code
+    again bumps its quantity instead of duplicating it. Export the list as CSV
+    when you're done.
+  </p>
+
+  <div class="notice">
+    <strong>Camera access is required</strong> and only granted over HTTPS.
+    The video never leaves your device — decoding happens in the page, and
+    there is no server here to upload it to.
+  </div>
+
+  <div class="panel">
+    <div class="btn-row">
+      <button class="btn btn--primary" id="start">Start camera</button>
+      <button class="btn" id="stop" disabled>Stop</button>
+      <label class="scan-formats">
+        <input type="checkbox" id="beep" checked> Beep on scan
+      </label>
+    </div>
+    <div class="scan-viewport" id="viewport" hidden></div>
+    <p class="small muted" id="scan-status" role="status" aria-live="polite">Camera is off.</p>
+  </div>
+
+  <div class="panel">
+    <div class="row">
+      <h2 class="grow" style="margin:0;font-size:1.05rem">Scanned codes <span class="faint small" id="row-count"></span></h2>
+      <button class="btn btn--sm" id="add-row">Add row manually</button>
+      <button class="btn btn--sm" id="export">Export CSV</button>
+      <button class="btn btn--sm btn--danger" id="clear">Clear all</button>
+    </div>
+
+    <div class="table-wrap" style="margin-top:var(--space-md)">
+      <table class="data" id="rows">
+        <thead>
+          <tr>
+            <th>Barcode</th>
+            <th style="width:7rem">Quantity</th>
+            <th style="width:9rem">Format</th>
+            <th style="width:3rem"><span class="visually-hidden">Remove</span></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="small faint scan-empty" id="empty">Nothing scanned yet.</p>
+  </div>
+
+  <p class="small faint">
+    Originally <code>public_html/barcode/barcode.html</code>. Already
+    client-side — refurbished rather than converted.
+  </p>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+<script src="/assets/js/chrome.js" data-project="Barcode Scanner"></script>
+<script src="/assets/js/store.js"></script>
+<script src="barcode.js"></script>
+</body>
+</html>

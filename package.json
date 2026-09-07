@@ -1,0 +1,19 @@
+{
+  "name": "oldstuff",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Archived ranzlappen.com projects, rebuilt to run without a server (old.ranzlappen.com)",
+  "type": "module",
+  "scripts": {
+    "serve": "node tools/serve.mjs",
+    "lint": "node tools/lint.mjs",
+    "smoke": "node tools/smoke.mjs",
+    "test": "npm run lint && npm run smoke"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

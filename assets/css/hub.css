@@ -1,0 +1,114 @@
+/* ==========================================================================
+   hub.css — the archive landing page (/index.html)
+   Layered on top of old.css; nothing here is used by the project pages.
+   ========================================================================== */
+
+.hub-hero { margin-bottom: var(--space-xl); }
+.hub-hero h1 { margin-bottom: var(--space-md); }
+.hub-hero__lede {
+  max-width: 46rem;
+  color: var(--c-text-muted);
+  font-size: 1.02rem;
+}
+
+/* ── Controls ──────────────────────────────────────────────────────────── */
+
+.hub-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--c-border-light);
+}
+.hub-controls input[type="search"] { flex: 1 1 14rem; max-width: 22rem; }
+
+.hub-tabs { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.hub-tab {
+  font: inherit;
+  font-size: 0.82rem;
+  padding: 0.4em 0.8em;
+  background: transparent;
+  color: var(--c-text-muted);
+  border: 1px solid var(--c-border-light);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.hub-tab:hover { color: var(--c-text); border-color: var(--c-border); }
+.hub-tab.is-active {
+  background: var(--c-accent-bg);
+  border-color: var(--c-accent-border);
+  color: var(--c-accent);
+}
+
+.hub-count { margin-left: auto; white-space: nowrap; }
+
+/* ── Grid ──────────────────────────────────────────────────────────────── */
+
+.hub-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--space-md);
+}
+
+.hub-card { display: flex; }
+
+.hub-card__link {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--space-lg);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-light);
+  border-radius: var(--radius);
+  color: inherit;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.hub-card__link:hover,
+.hub-card__link:focus-visible {
+  text-decoration: none;
+  border-color: var(--c-accent-border);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px var(--c-shadow);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hub-card__link { transition: border-color 0.15s; }
+  .hub-card__link:hover, .hub-card__link:focus-visible { transform: none; }
+}
+
+.hub-card__icon { font-size: 1.6rem; line-height: 1; margin-bottom: var(--space-sm); }
+
+.hub-card__title {
+  font-size: 1.05rem;
+  margin: 0 0 var(--space-sm);
+  color: var(--c-text);
+}
+.hub-card__link:hover .hub-card__title { color: var(--c-accent); }
+
+.hub-card__desc {
+  font-size: 0.88rem;
+  color: var(--c-text-muted);
+  margin: 0 0 var(--space-md);
+  flex: 1;
+}
+
+.hub-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  font-size: 0.75rem;
+}
+.hub-card__meta code { font-size: 0.95em; }
+
+.hub-empty {
+  padding: var(--space-2xl) 0;
+  text-align: center;
+  color: var(--c-text-faint);
+}
