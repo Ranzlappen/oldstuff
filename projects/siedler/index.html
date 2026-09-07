@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Siedler Resource Table — old.ranzlappen.com</title>
+<meta name="description" content="The resource and building bookkeeper for a game of Settlers: five resource decks, dice, the robber, and a live count per player.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="/assets/css/tabletop.css">
+<link rel="stylesheet" href="siedler.css">
+</head>
+<body data-no-chrome>
+
+<div class="tt-app">
+
+  <header class="tt-bar">
+    <a class="tt-brand" href="/">old<span>.</span>ranzlappen</a>
+    <span class="tt-sep">/</span>
+    <span class="tt-title">Siedler</span>
+
+    <span class="tt-seat" id="seat-label">no seat</span>
+
+    <div class="tt-bar__group btn-row">
+      <button class="btn btn--sm btn--primary" id="reset">Neues Spiel</button>
+      <button class="btn btn--sm" id="roll">🎲 Würfeln <span id="dice"></span></button>
+      <button class="btn btn--sm" id="bank">Zur Bank</button>
+      <button class="btn btn--sm" id="leave">Platz verlassen</button>
+    </div>
+
+    <span class="tt-spacer"></span>
+    <div class="tt-scores" id="scores"></div>
+  </header>
+
+  <div class="sd-draw" id="draw-bar"></div>
+
+  <div class="tt-surface-wrap">
+    <div class="tt-surface" id="surface">
+      <div class="tt-zone-label" id="zone-hand">HAND</div>
+      <div class="tt-zone-label" id="zone-table">TISCH</div>
+      <div class="tt-line" id="hand-line"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="tt-lobby" id="lobby">
+  <div class="tt-lobby__card">
+    <h1>Siedler Resource Table</h1>
+    <p class="muted">
+      Not the board — the bookkeeping. Five resource decks, the building stock,
+      two dice and the robber, shared between every tab of this browser.
+    </p>
+    <p class="tt-help">
+      Draw resources into your <strong>hand</strong> (above the dashed line,
+      where only your seat sees them). Drag a card below the line to put it on
+      the <strong>table</strong> for a trade, or press <strong>Zur Bank</strong>
+      to hand back everything you have on the table. Roads, settlements and
+      cities are your own stock, so everyone can see what you have left to
+      build.
+    </p>
+    <ul class="tt-seats" id="seats"></ul>
+    <p class="small faint" style="margin-top:var(--space-lg)">
+      Originally <code>public_html/Project8/</code> — see
+      <a href="NOTES.md">NOTES.md</a>.
+      <a href="/">Back to the archive</a>.
+    </p>
+  </div>
+</div>
+
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/store.js"></script>
+<script src="/assets/js/table.js"></script>
+<script src="/assets/js/tabletop.js"></script>
+<script src="/assets/js/seating.js"></script>
+<script src="siedler.js"></script>
+</body>
+</html>

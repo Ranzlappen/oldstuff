@@ -46,10 +46,11 @@ as-is.
   success, but `index.php` gated on `$_SESSION['username']`, which nothing ever
   set — so the front page always redirected back to the login. It then
   redirected to `file_list.php`, which does not exist in the archive.
-- **Two different databases.** `config.php` connected to `u235388598_allgames`
-  while `admin.php` and `update_approval.php` connected to
-  `u235388598_database1`, so the admin dashboard approved users in a different
-  table from the one the login checked.
+- **Two different databases.** `config.php` connected to one database while
+  `admin.php` and `update_approval.php` connected to another, so the admin
+  dashboard approved users in a different table from the one the login
+  checked. (The names are redacted here — they embedded the hosting account
+  id, and `tools/lint.mjs` fails the build on it.)
 - **`registerUser` stored a `password_hash`** correctly, but `is_approved` was
   compared with `===` against the integer `1` — and PDO returns MySQL integers
   as *strings* by default, so `$user['is_approved'] === 1` was never true and

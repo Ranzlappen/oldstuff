@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Lobby — old.ranzlappen.com</title>
+<meta name="description" content="Pick a name, join a group, and see who else is at the table right now.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="lobby.css">
+</head>
+<body>
+
+<main id="main" class="wrap">
+
+  <h1>Game Lobby</h1>
+  <p class="muted lb-lede">
+    The front desk that sat in front of the card games: choose a name, pick a
+    group, and see who else is here.
+  </p>
+
+  <div class="notice">
+    <strong>"Here" means this browser.</strong> The original tracked sessions
+    in MySQL, so the list spanned everyone on the site. With no server, presence
+    is shared between the tabs of this browser — which is also how the games
+    themselves work now.
+  </div>
+
+  <section class="panel lb-join" id="join">
+    <h2 class="panel__title">Join</h2>
+    <form id="join-form">
+      <div class="field-grid">
+        <div class="field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" required maxlength="24" autocomplete="off" placeholder="Matthias">
+        </div>
+        <div class="field">
+          <label for="group">Group</label>
+          <select id="group"></select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn--primary">Join the lobby</button>
+    </form>
+  </section>
+
+  <section class="panel lb-here hidden" id="here">
+    <div class="row">
+      <div class="grow">
+        <h2 class="panel__title" style="margin:0">You're in as <strong id="me-name"></strong></h2>
+      </div>
+      <label class="lb-inline">
+        <span class="visually-hidden">Change group</span>
+        <select id="my-group"></select>
+      </label>
+      <button class="btn btn--sm" id="leave">Leave</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">Who's here <span class="faint" id="count"></span></h2>
+    <ul class="lb-people" id="people"></ul>
+    <p class="small faint" id="empty">Nobody is in the lobby yet.</p>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">Games</h2>
+    <ul class="lb-games">
+      <li><a href="/projects/romme/"><span aria-hidden="true">🃏</span> Rommé <span class="faint small">— 110 cards, up to six seats</span></a></li>
+      <li><a href="/projects/skat/"><span aria-hidden="true">♠️</span> Skat <span class="faint small">— 32 cards, three seats</span></a></li>
+      <li><a href="/projects/siedler/"><span aria-hidden="true">🏘️</span> Siedler <span class="faint small">— resources and building stock</span></a></li>
+    </ul>
+  </section>
+
+  <p class="small faint">
+    Originally <code>public_html/Project9/</code>.
+    See <a href="NOTES.md">NOTES.md</a> for what changed.
+  </p>
+
+</main>
+
+<script src="/assets/js/chrome.js" data-project="Game Lobby"></script>
+<script src="/assets/js/store.js"></script>
+<script src="/assets/js/table.js"></script>
+<script src="lobby.js"></script>
+</body>
+</html>

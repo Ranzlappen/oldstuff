@@ -177,6 +177,80 @@ const PAGES = [
       if (!/cannot contain spaces/.test(await p.textContent('#checks'))) {
         throw new Error('space check missing');
       }
+    } },
+  { path: '/projects/lobby/', name: 'lobby', act: async (p) => {
+      await p.fill('#name', 'Tester');
+      await p.selectOption('#group', 'Skat');
+      await p.click('#join-form button[type="submit"]');
+      await p.waitForSelector('#here:not(.hidden)');
+      if (await p.locator('.lb-person').count() !== 1) throw new Error('not listed in the lobby');
+      if (!/Skat/.test(await p.textContent('.lb-person'))) throw new Error('group not shown');
+      await p.click('#leave');
+      await p.waitForSelector('#join:not(.hidden)');
+      if (await p.locator('.lb-person').count() !== 0) throw new Error('still listed after leaving');
+    } },
+  { path: '/projects/romme/', name: 'romme', act: async (p) => {
+      // The lobby gates the table until a seat is taken.
+      await p.waitForSelector('#lobby:not([hidden])');
+      await p.click('.tt-seats li:first-child button.btn--primary');
+      await p.waitForSelector('#lobby[hidden]', { state: 'attached' });
+      if (!/Spieler 1/.test(await p.textContent('#seat-label'))) throw new Error('seat label not set');
+      // A fresh table holds the whole 110-card deck and nothing on the surface.
+      if (await p.textContent('#deck-count') !== '110') {
+        throw new Error(`deck holds ${await p.textContent('#deck-count')}, expected 110`);
+      }
+      if (await p.locator('.tt-piece').count() !== 0) throw new Error('cards on the surface before dealing');
+      p.on('dialog', (d) => d.accept());
+      await p.click('#deal');
+      await p.waitForSelector('.tt-piece');
+      if (await p.locator('.tt-piece').count() !== 13) {
+        throw new Error(`dealt ${await p.locator('.tt-piece').count()} cards, expected 13`);
+      }
+      if (await p.textContent('#deck-count') !== '97') {
+        throw new Error(`deck should hold 97 after dealing 13, holds ${await p.textContent('#deck-count')}`);
+      }
+      await p.click('#draw');
+      if (await p.locator('.tt-piece').count() !== 14) throw new Error('draw did not add a card');
+      // Pip counting must total the hand.
+      await p.click('#count');
+      if (!/Augen/.test(await p.textContent('#scores'))) throw new Error('pip mode not shown');
+    } },
+  { path: '/projects/skat/', name: 'skat', act: async (p) => {
+      await p.waitForSelector('#lobby:not([hidden])');
+      await p.click('.tt-seats li:first-child button.btn--primary');
+      await p.waitForSelector('#lobby[hidden]', { state: 'attached' });
+      if (await p.textContent('#deck-count') !== '32') {
+        throw new Error(`Skat deck holds ${await p.textContent('#deck-count')}, expected 32`);
+      }
+      p.on('dialog', (d) => d.accept());
+      await p.click('#deal');
+      await p.waitForSelector('.tt-piece');
+      // Ten in hand; the two Skat cards are on the table, so eleven visible
+      // pieces would mean the Skat leaked into the hand count.
+      const inHand = await p.locator('.tt-piece:not(.tt-piece--down)').count();
+      if (inHand !== 10) throw new Error(`dealt ${inHand} face-up cards, expected 10`);
+      if (await p.textContent('#skat-count') !== '2') {
+        throw new Error(`Skat holds ${await p.textContent('#skat-count')}, expected 2`);
+      }
+      await p.click('#take-skat');
+      if (await p.locator('.tt-piece:not(.tt-piece--down)').count() !== 12) {
+        throw new Error('taking the Skat did not add two cards to the hand');
+      }
+    } },
+  { path: '/projects/siedler/', name: 'siedler', act: async (p) => {
+      await p.waitForSelector('#lobby:not([hidden])');
+      await p.click('.tt-seats li:first-child button.btn--primary');
+      await p.waitForSelector('#lobby[hidden]', { state: 'attached' });
+      // The bank starts with 19 of each resource, and each seat's stock is on
+      // the table (15 roads + 5 settlements + 4 cities) x 4 seats = 96, + robber.
+      if (!/19 left/.test(await p.textContent('#draw-bar'))) throw new Error('bank counts wrong');
+      const before = await p.locator('.tt-piece').count();
+      if (before !== 97) throw new Error(`surface holds ${before} pieces, expected 97`);
+      await p.click('.sd-draw__btn.sd-wood');
+      if (await p.locator('.tt-piece').count() !== before + 1) throw new Error('draw did not add a token');
+      if (!/18 left/.test(await p.textContent('#draw-bar'))) throw new Error('bank count did not drop');
+      await p.click('#roll');
+      if (!/=/.test(await p.textContent('#dice'))) throw new Error('dice did not roll');
     } }
 ];
 
@@ -231,6 +305,103 @@ for (const page of PAGES) {
     for (const problem of problems) console.log(`        ${problem}`);
   } else {
     console.log(`ok    ${page.name}`);
+  }
+
+  await context.close();
+}
+
+/* ── Cross-tab sync ────────────────────────────────────────────────────────
+   The games' whole claim is that a move reaches the other tabs. Two pages in
+   one browser context share an origin, so they share localStorage and can talk
+   over a BroadcastChannel — which is exactly the "two players" case. */
+{
+  const context = await browser.newContext();
+  const problems = [];
+  const a = await context.newPage();
+  const b = await context.newPage();
+  for (const tab of [a, b]) {
+    tab.on('pageerror', (e) => problems.push(`uncaught: ${e.message}`));
+    tab.on('dialog', (d) => d.accept());
+  }
+
+  try {
+    await a.goto(base + '/projects/romme/', { waitUntil: 'load' });
+    await b.goto(base + '/projects/romme/', { waitUntil: 'load' });
+
+    // Two tabs take two different seats.
+    await a.click('.tt-seats li:nth-child(1) button.btn--primary');
+    await a.waitForSelector('#lobby[hidden]', { state: 'attached' });
+    await b.waitForSelector('.tt-seats li:nth-child(1) button:disabled');
+
+    const firstSeatLabel = await b.textContent('.tt-seats li:nth-child(1) button.btn');
+    if (!/Taken/.test(firstSeatLabel)) {
+      problems.push(`seat 1 should read Taken in the second tab, reads "${firstSeatLabel}"`);
+    }
+
+    await b.click('.tt-seats li:nth-child(2) button.btn--primary');
+    await b.waitForSelector('#lobby[hidden]', { state: 'attached' });
+
+    // Tab A deals. Both tabs must see 13 cards each, and neither may see the
+    // other's hand: 13 visible pieces, not 26.
+    await a.click('#deal');
+    await a.waitForSelector('.tt-piece');
+    await b.waitForFunction(() => document.querySelectorAll('.tt-piece').length === 13,
+      null, { timeout: 10000 });
+
+    const aCount = await a.locator('.tt-piece').count();
+    const bCount = await b.locator('.tt-piece').count();
+    if (aCount !== 13) problems.push(`dealing tab shows ${aCount} cards, expected 13`);
+    if (bCount !== 13) problems.push(`second tab shows ${bCount} cards, expected 13`);
+
+    // The two hands must be different cards — if the visibility filter were
+    // broken both tabs would render the same 13 pieces.
+    const ids = async (page) => (await page.locator('.tt-piece').evaluateAll(
+      (nodes) => nodes.map((n) => n.getAttribute('data-piece')))).sort();
+    const [idsA, idsB] = [await ids(a), await ids(b)];
+    if (idsA.join() === idsB.join()) {
+      problems.push('both tabs are showing the same hand — the hand filter is not applied');
+    }
+    if (idsA.some((id) => idsB.includes(id))) {
+      problems.push('a card is in both hands at once');
+    }
+
+    // Playing a card onto the table must make it visible in the other tab.
+    const played = idsA[0];
+    await a.evaluate((id) => {
+      const t = window.__romme.table;
+      t.mutate((state) => {
+        const piece = state.pieces.find((p) => p.id === id);
+        piece.y = window.__romme.HAND_LINE + 120;
+        piece.owner = 0;
+        return state;
+      });
+    }, played);
+
+    await b.waitForFunction(
+      (id) => !!document.querySelector(`.tt-piece[data-piece="${id}"]`),
+      played, { timeout: 10000 }
+    );
+
+    const seenByB = await b.locator(`.tt-piece[data-piece="${played}"]`).count();
+    if (seenByB !== 1) problems.push('a card played to the table did not appear in the other tab');
+
+    // Leaving returns that tab to the lobby with its seat free again. (The
+    // other tab is seated and not looking at the lobby, so its seat list is
+    // deliberately not re-rendered — it only refreshes while the lobby is up.)
+    await a.click('#leave');
+    await a.waitForSelector('#lobby:not([hidden])');
+    const freed = await a.locator('.tt-seats li:nth-child(1) button.btn--primary:not(:disabled)').count();
+    if (freed !== 1) problems.push('the seat was not released when its tab left');
+  } catch (err) {
+    problems.push(`interaction: ${err.message}`);
+  }
+
+  if (problems.length) {
+    failures++;
+    console.log('FAIL  cross-tab sync');
+    for (const problem of problems) console.log(`        ${problem}`);
+  } else {
+    console.log('ok    cross-tab sync');
   }
 
   await context.close();

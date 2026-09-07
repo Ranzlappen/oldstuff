@@ -1,0 +1,210 @@
+/* ==========================================================================
+   tabletop.css — the shared playing surface (Rommé, Skat, Siedler)
+   ========================================================================== */
+
+.tt-app { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+
+/* ── Toolbar ───────────────────────────────────────────────────────────── */
+
+.tt-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--c-bg-alt);
+  border-bottom: 1px solid var(--c-border-light);
+}
+.tt-brand { font-weight: 700; color: var(--c-text); white-space: nowrap; }
+.tt-brand span { color: var(--c-accent); }
+.tt-brand:hover { text-decoration: none; color: var(--c-accent); }
+.tt-sep { color: var(--c-text-faint); }
+.tt-title { font-size: 0.85rem; color: var(--c-text-muted); }
+.tt-spacer { flex: 1; }
+
+.tt-seat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.3em 0.7em;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--c-accent-border);
+  background: var(--c-accent-bg);
+  color: var(--c-accent);
+  white-space: nowrap;
+}
+
+.tt-scores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  font-size: 0.78rem;
+  color: var(--c-text-muted);
+}
+.tt-score {
+  display: inline-flex;
+  gap: 0.35em;
+  padding: 0.25em 0.6em;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-light);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.tt-score--me { border-color: var(--c-accent-border); color: var(--c-accent); }
+.tt-score b { font-weight: 650; }
+
+/* ── Surface ───────────────────────────────────────────────────────────── */
+
+.tt-surface-wrap { flex: 1; overflow: auto; background: #0d1512; }
+
+.tt-surface {
+  position: relative;
+  width: 1600px;
+  height: 900px;
+  background:
+    radial-gradient(ellipse at 50% 40%, #1a3b2c 0%, #12271e 55%, #0d1a14 100%);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* The hand/table divider, and the two watermarks the original drew at 300px. */
+.tt-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 3px dashed rgba(74, 222, 128, 0.35);
+  pointer-events: none;
+  z-index: 1;
+}
+.tt-zone-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(4rem, 14vw, 12rem);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: rgba(220, 232, 226, 0.045);
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* ── Pieces ────────────────────────────────────────────────────────────── */
+
+.tt-piece {
+  position: absolute;
+  width: 64px;
+  height: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fdfdfb;
+  color: #101010;
+  border: 1px solid #b9c3bd;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  cursor: grab;
+  touch-action: none;
+  font-family: var(--f-body);
+  line-height: 1.05;
+  z-index: 2;
+}
+.tt-piece:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.tt-piece.is-dragging { cursor: grabbing; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6); }
+.tt-piece--table { box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(74, 222, 128, 0.35); }
+
+.tt-rank { font-size: 1.5rem; font-weight: 700; }
+.tt-suit { font-size: 1.5rem; line-height: 1; }
+.tt-piece--red .tt-rank, .tt-piece--red .tt-suit { color: #c0392b; }
+.tt-piece--joker { background: linear-gradient(150deg, #fff6d5, #ffe6a3); }
+.tt-piece--joker .tt-rank { font-size: 1.1rem; }
+
+/* Face-down: the deck back, drawn in CSS so no image is needed. */
+.tt-piece--down {
+  background:
+    repeating-linear-gradient(45deg, #1f3a8a 0 6px, #16307a 6px 12px);
+  border-color: #0f1f52;
+  color: transparent;
+}
+
+/* Resource tokens (Siedler) are square and coloured by kind. */
+.tt-piece--token {
+  width: 58px;
+  height: 58px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 2px;
+}
+.tt-token-icon { font-size: 1.4rem; line-height: 1; }
+
+/* Piles the games place on the surface (deck, discard). */
+.tt-pile {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 64px;
+  height: 88px;
+  border: 2px dashed rgba(220, 232, 226, 0.3);
+  border-radius: 6px;
+  color: rgba(220, 232, 226, 0.6);
+  font-size: 0.65rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 1;
+  pointer-events: none;
+}
+.tt-pile b { font-size: 1rem; }
+
+/* ── Seat picker ───────────────────────────────────────────────────────── */
+
+.tt-lobby {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  background: var(--c-overlay);
+  backdrop-filter: blur(6px);
+  overflow-y: auto;
+}
+.tt-lobby[hidden] { display: none; }
+
+.tt-lobby__card {
+  width: min(36rem, 100%);
+  padding: var(--space-xl);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px var(--c-shadow);
+}
+.tt-lobby__card h1 { margin-bottom: var(--space-sm); }
+
+.tt-seats { list-style: none; margin: var(--space-lg) 0 0; padding: 0; display: grid; gap: var(--space-sm); }
+.tt-seats li { display: flex; align-items: center; gap: var(--space-sm); }
+.tt-seats .grow { flex: 1; }
+.tt-seat-taken { font-size: 0.78rem; color: var(--c-text-faint); }
+
+.tt-help { font-size: 0.82rem; color: var(--c-text-muted); }
+.tt-help code { font-size: 0.95em; }
+
+@media (max-width: 40rem) {
+  .tt-bar { font-size: 0.9rem; }
+  .tt-scores { width: 100%; order: 10; }
+}

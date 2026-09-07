@@ -1,0 +1,54 @@
+# Validation for pull requests.
+#
+# The site has no build step, so "CI" means: does every script parse, does
+# every local link resolve, is anything from the original shared hosting
+# leaking back in, do the ported algorithms still behave, and does every page
+# come up clean in a real browser.
+name: CI
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install tooling
+        run: npm ci
+
+      # Scripts parse, local links resolve, no credentials from the original
+      # hosting, no PHP in the deployed tree.
+      - name: Lint
+        run: npm run lint
+
+      # The ported algorithms: the dice cube's rotation composition, the GW2
+      # input parser, the 3D packer's invariants, the Minecraft argument
+      # validator, and the ZIP writer.
+      - name: Logic tests
+        run: npm run test:logic
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Every page loaded in a real browser, its main control exercised, and a
+      # two-tab check that a move in one game tab reaches the other.
+      - name: Smoke tests
+        run: npm run smoke

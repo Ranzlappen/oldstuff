@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skat — old.ranzlappen.com</title>
+<meta name="description" content="Three seats, a 32-card deck, a two-card Skat and a trick area — the table furniture for a hand of Skat.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="/assets/css/tabletop.css">
+</head>
+<body data-no-chrome>
+
+<div class="tt-app">
+
+  <header class="tt-bar">
+    <a class="tt-brand" href="/">old<span>.</span>ranzlappen</a>
+    <span class="tt-sep">/</span>
+    <span class="tt-title">Skat</span>
+
+    <span class="tt-seat" id="seat-label">no seat</span>
+
+    <div class="tt-bar__group btn-row">
+      <button class="btn btn--sm btn--primary" id="deal">Neu geben</button>
+      <button class="btn btn--sm" id="take-skat">Skat aufnehmen</button>
+      <button class="btn btn--sm" id="sort">Hand sortieren</button>
+      <button class="btn btn--sm" id="collect">Stich einziehen</button>
+      <button class="btn btn--sm" id="count">Augen zählen</button>
+      <button class="btn btn--sm" id="leave">Platz verlassen</button>
+    </div>
+
+    <span class="tt-spacer"></span>
+    <div class="tt-scores" id="scores"></div>
+  </header>
+
+  <div class="tt-surface-wrap">
+    <div class="tt-surface" id="surface">
+      <div class="tt-zone-label" id="zone-hand">HAND</div>
+      <div class="tt-zone-label" id="zone-table">TISCH</div>
+      <div class="tt-line" id="hand-line"></div>
+      <div class="tt-pile" id="deck-pile"><span>Stapel</span><b id="deck-count">0</b></div>
+      <div class="tt-pile" id="skat-pile"><span>Skat</span><b id="skat-count">0</b></div>
+      <div class="tt-pile" id="won-pile"><span>Stiche</span><b id="won-count">0</b></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="tt-lobby" id="lobby">
+  <div class="tt-lobby__card">
+    <h1>Skat</h1>
+    <p class="muted">
+      Three seats. Open one browser tab per player — the table is shared
+      between every tab of this browser.
+    </p>
+    <p class="tt-help">
+      Ten cards each plus a two-card Skat. Cards above the dashed line are your
+      hand; drag one below it to play it into the trick, where everyone sees
+      it. <strong>Stich einziehen</strong> sweeps the trick to your won pile.
+      Card points follow the game (A 11, 10 10, K 4, D 3, B 2) so
+      <strong>Augen zählen</strong> gives a real total — but bidding, trumps
+      and who won which trick are still the players' business.
+    </p>
+    <ul class="tt-seats" id="seats"></ul>
+    <p class="small faint" style="margin-top:var(--space-lg)">
+      Originally <code>public_html/Skat/</code> — see
+      <a href="NOTES.md">NOTES.md</a>.
+      <a href="/">Back to the archive</a>.
+    </p>
+  </div>
+</div>
+
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/store.js"></script>
+<script src="/assets/js/table.js"></script>
+<script src="/assets/js/tabletop.js"></script>
+<script src="/assets/js/seating.js"></script>
+<script src="skat.js"></script>
+</body>
+</html>

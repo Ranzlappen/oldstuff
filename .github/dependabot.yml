@@ -1,0 +1,27 @@
+# The site itself ships no dependencies — it is hand-written HTML, CSS and JS,
+# and the one vendored library (three.js under projects/packing-3d/vendor/) is
+# pinned deliberately so the archive keeps working.
+#
+# What is worth updating automatically is the test tooling and the Actions the
+# workflows call.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      tooling:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]

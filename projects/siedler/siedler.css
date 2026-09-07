@@ -1,0 +1,48 @@
+/* Siedler — resource draw bar and coloured tokens. */
+
+.sd-draw {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--c-bg-alt);
+  border-bottom: 1px solid var(--c-border-light);
+}
+
+.sd-draw__btn {
+  font: inherit;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.4em 0.75em;
+  font-size: 0.82rem;
+  color: var(--c-text);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-left-width: 4px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.sd-draw__btn:hover { border-color: var(--c-accent-border); border-left-color: inherit; }
+.sd-draw__btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.sd-draw__icon { font-size: 1.1rem; }
+.sd-draw__left { color: var(--c-text-faint); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+
+/* Resource colours, reused by the buttons and the tokens on the surface. */
+.sd-wood  { --sd: #4d7c3f; }
+.sd-brick { --sd: #b45309; }
+.sd-sheep { --sd: #84cc16; }
+.sd-wheat { --sd: #eab308; }
+.sd-ore   { --sd: #6b7280; }
+.sd-road  { --sd: #78716c; }
+.sd-town  { --sd: #0ea5e9; }
+.sd-city  { --sd: #a855f7; }
+.sd-robber{ --sd: #171717; }
+
+.sd-draw__btn { border-left-color: var(--sd); }
+
+.tt-piece--token { background: var(--sd, #ddd); color: #fff; border-color: rgba(0,0,0,0.3); }
+.tt-piece--token.sd-sheep, .tt-piece--token.sd-wheat { color: #1a1a1a; }
+.tt-piece--robber { border-radius: 50%; width: 52px; height: 52px; }
+
+#dice { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rommé — old.ranzlappen.com</title>
+<meta name="description" content="The free-form Rommé table: 110 cards you drag anywhere, a shared draw pile, and a hand only your seat can see.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="/assets/css/tabletop.css">
+</head>
+<body data-no-chrome>
+
+<div class="tt-app">
+
+  <header class="tt-bar">
+    <a class="tt-brand" href="/">old<span>.</span>ranzlappen</a>
+    <span class="tt-sep">/</span>
+    <span class="tt-title">Rommé</span>
+
+    <span class="tt-seat" id="seat-label">no seat</span>
+
+    <div class="tt-bar__group btn-row">
+      <button class="btn btn--sm btn--primary" id="deal">Neu geben</button>
+      <button class="btn btn--sm" id="draw">Karte ziehen</button>
+      <button class="btn btn--sm" id="sort">Hand sortieren</button>
+      <button class="btn btn--sm" id="reshuffle">Ablage mischen</button>
+      <button class="btn btn--sm" id="count">Augen zählen</button>
+      <button class="btn btn--sm" id="leave">Platz verlassen</button>
+    </div>
+
+    <span class="tt-spacer"></span>
+    <div class="tt-scores" id="scores"></div>
+  </header>
+
+  <div class="tt-surface-wrap">
+    <div class="tt-surface" id="surface">
+      <div class="tt-zone-label" id="zone-hand">HAND</div>
+      <div class="tt-zone-label" id="zone-table">TISCH</div>
+      <div class="tt-line" id="hand-line"></div>
+      <div class="tt-pile" id="deck-pile"><span>Stapel</span><b id="deck-count">0</b></div>
+      <div class="tt-pile" id="discard-pile"><span>Ablage</span><b id="discard-count">0</b></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="tt-lobby" id="lobby">
+  <div class="tt-lobby__card">
+    <h1>Rommé</h1>
+    <p class="muted">
+      Pick a seat. Open one browser tab per player — the table is shared
+      between every tab of this browser, so a move you make appears in the
+      others straight away.
+    </p>
+    <p class="tt-help">
+      Cards above the dashed line are your <strong>hand</strong>: other seats
+      don't see them. Drag a card below the line to play it onto the
+      <strong>table</strong>, where everyone does. That is exactly how the
+      original worked — it is a virtual tabletop, not a rules engine, so
+      melds, sequences and scoring are up to the players.
+    </p>
+    <ul class="tt-seats" id="seats"></ul>
+    <p class="small faint" style="margin-top:var(--space-lg)">
+      Originally <code>public_html/Project7/</code> — see
+      <a href="NOTES.md">NOTES.md</a>.
+      <a href="/">Back to the archive</a>.
+    </p>
+  </div>
+</div>
+
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/store.js"></script>
+<script src="/assets/js/table.js"></script>
+<script src="/assets/js/tabletop.js"></script>
+<script src="/assets/js/seating.js"></script>
+<script src="romme.js"></script>
+</body>
+</html>
