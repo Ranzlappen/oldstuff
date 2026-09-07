@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Container Packing — old.ranzlappen.com</title>
+<meta name="description" content="Set a container size, add boxes, and see a shelf-packing layout in an orbitable 3D scene.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="packing.css">
+</head>
+<body>
+
+<main id="main" class="wrap">
+
+  <h1>3D Container Packing</h1>
+  <p class="muted pk-lede">
+    Give a container its dimensions, add the boxes you want to fit, and the
+    packer lays them out shelf by shelf. Drag the scene to orbit, scroll to
+    zoom.
+  </p>
+
+  <div class="pk-layout">
+
+    <div class="pk-side">
+
+      <section class="panel">
+        <h2 class="panel__title">Container</h2>
+        <div class="field-grid">
+          <div class="field">
+            <label for="c-width">Width</label>
+            <input type="number" id="c-width" min="1" step="any" value="11">
+          </div>
+          <div class="field">
+            <label for="c-height">Height</label>
+            <input type="number" id="c-height" min="1" step="any" value="11">
+          </div>
+          <div class="field">
+            <label for="c-depth">Depth</label>
+            <input type="number" id="c-depth" min="1" step="any" value="11">
+          </div>
+        </div>
+        <p class="small faint" id="c-volume"></p>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__title">Add items</h2>
+        <form id="item-form">
+          <div class="field">
+            <label for="i-name">Name</label>
+            <input type="text" id="i-name" value="item1" required>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="i-width">Width</label>
+              <input type="number" id="i-width" min="0.1" step="any" value="5" required>
+            </div>
+            <div class="field">
+              <label for="i-height">Height</label>
+              <input type="number" id="i-height" min="0.1" step="any" value="5" required>
+            </div>
+            <div class="field">
+              <label for="i-depth">Depth</label>
+              <input type="number" id="i-depth" min="0.1" step="any" value="5" required>
+            </div>
+            <div class="field">
+              <label for="i-weight">Weight</label>
+              <input type="number" id="i-weight" min="0" step="any" value="1">
+            </div>
+            <div class="field">
+              <label for="i-count">Amount</label>
+              <input type="number" id="i-count" min="1" step="1" value="8" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn--primary">Add item</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__title">Items <span class="faint" id="item-count"></span></h2>
+        <ul class="pk-items" id="items"></ul>
+        <p class="small faint" id="items-empty">No items added yet.</p>
+        <div class="btn-row" style="margin-top:var(--space-md)">
+          <button class="btn btn--sm" id="pack">Pack &amp; visualise</button>
+          <button class="btn btn--sm btn--danger" id="clear">Clear all</button>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="pk-main">
+      <div class="pk-stage" id="stage">
+        <p class="pk-placeholder" id="placeholder">Press <strong>Pack &amp; visualise</strong> to render the layout.</p>
+      </div>
+      <div class="panel pk-report" id="report" hidden></div>
+    </div>
+
+  </div>
+
+  <p class="small faint">
+    Originally <code>public_html/Project6/index.php</code>.
+    See <a href="NOTES.md">NOTES.md</a> for what changed.
+  </p>
+
+</main>
+
+<!-- three.js r128 + its OrbitControls example, vendored rather than pulled from
+     a CDN: this is an archive, and a moved or retired CDN path would silently
+     break the page years from now. Both are MIT-licensed (see vendor/LICENSE). -->
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script src="/assets/js/chrome.js" data-project="3D Container Packing"></script>
+<script src="/assets/js/store.js"></script>
+<script src="packing.js"></script>
+</body>
+</html>

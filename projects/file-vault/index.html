@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File Vault — old.ranzlappen.com</title>
+<meta name="description" content="Upload files, mark them private or released, and download them back — stored in the browser rather than on a server.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="vault.css">
+</head>
+<body>
+
+<main id="main" class="wrap">
+
+  <h1>File Vault</h1>
+  <p class="muted fv-lede">
+    Drop files in, give them a name, mark them <em>released</em> so they show up
+    in the shared list, and download them back out.
+  </p>
+
+  <div class="notice notice--warn">
+    <strong>This is local storage, not a file host.</strong> The original
+    uploaded to a server directory and tracked ownership in MySQL behind a login.
+    There is no server here, so files are kept in this browser's IndexedDB —
+    they never leave your device and nobody else can see them. Clearing site
+    data for this domain deletes them.
+  </div>
+
+  <section class="panel">
+    <h2 class="panel__title">Upload</h2>
+    <div class="fv-drop" id="drop" tabindex="0" role="button"
+         aria-label="Choose files to add, or drop them here">
+      <p class="fv-drop__text">
+        <strong>Drop files here</strong><br>
+        <span class="faint small">or click to choose — nothing is uploaded anywhere</span>
+      </p>
+      <input type="file" id="file-input" multiple hidden>
+    </div>
+    <p class="small faint" id="quota"></p>
+  </section>
+
+  <section class="panel">
+    <div class="row fv-toolbar">
+      <div class="grow">
+        <label for="filter" class="visually-hidden">Filter files</label>
+        <input type="search" id="filter" placeholder="Filter by name…" autocomplete="off">
+      </div>
+      <label class="fv-inline">
+        <span class="visually-hidden">Show</span>
+        <select id="scope">
+          <option value="all">All files</option>
+          <option value="released">Released only</option>
+          <option value="private">Private only</option>
+        </select>
+      </label>
+      <span class="faint small" id="count"></span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data" id="files">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th style="width:7rem">Size</th>
+            <th style="width:9rem">Type</th>
+            <th style="width:11rem">Added</th>
+            <th style="width:6rem">State</th>
+            <th style="width:14rem"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="small faint" id="empty">The vault is empty.</p>
+  </section>
+
+  <p class="small faint">
+    Originally <code>public_html/Project3/</code> (duplicated verbatim as
+    <code>public_html/Game/</code>).
+    See <a href="NOTES.md">NOTES.md</a> for what changed.
+  </p>
+
+</main>
+
+<dialog id="preview-dialog" class="fv-preview">
+  <div class="fv-preview__bar">
+    <strong id="preview-title">Preview</strong>
+    <button class="btn btn--sm" id="preview-close">Close</button>
+  </div>
+  <div class="fv-preview__body" id="preview-body"></div>
+</dialog>
+
+<script src="/assets/js/chrome.js" data-project="File Vault"></script>
+<script src="/assets/js/store.js"></script>
+<script src="vault.js"></script>
+</body>
+</html>

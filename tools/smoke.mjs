@@ -88,6 +88,95 @@ const PAGES = [
       if (await p.inputValue('#rows tbody tr input[type="text"]') !== '4006381333931') {
         throw new Error('row did not survive a reload');
       }
+    } },
+  { path: '/projects/code-database/', name: 'code-database', act: async (p) => {
+      await p.fill('#add-language', 'html');
+      await p.fill('#add-code', '<b>hi</b>');
+      await p.fill('#add-title', 'Bold');
+      await p.click('#add-form button[type="submit"]');
+      if (await p.locator('.cdb-row').count() !== 1) throw new Error('snippet was not added');
+      // The filter must narrow, and the row must survive a reload (localStorage).
+      await p.fill('#filter', 'nomatch');
+      if (await p.locator('.cdb-row').count() !== 0) throw new Error('filter did not narrow');
+      await p.fill('#filter', 'bold');
+      if (await p.locator('.cdb-row').count() !== 1) throw new Error('filter did not match on title');
+      await p.reload();
+      if (await p.locator('.cdb-row').count() !== 1) throw new Error('snippet did not persist');
+      // The preview iframe must be sandboxed without allow-same-origin.
+      const sandbox = await p.getAttribute('#preview-frame', 'sandbox');
+      if (!sandbox || sandbox.includes('allow-same-origin')) {
+        throw new Error(`preview iframe sandbox is unsafe: "${sandbox}"`);
+      }
+    } },
+  { path: '/projects/packing-3d/', name: 'packing-3d', act: async (p) => {
+      await p.click('#item-form button[type="submit"]');
+      if (await p.locator('.pk-item').count() !== 1) throw new Error('item was not added');
+      await p.click('#pack');
+      await p.waitForSelector('#report:not([hidden])');
+      const text = await p.textContent('#report');
+      if (!/8 of 8 boxes/.test(text)) throw new Error(`report says: ${text.replace(/\s+/g, ' ').trim()}`);
+      if (await p.locator('#stage canvas').count() !== 1) throw new Error('no canvas rendered');
+    } },
+  { path: '/projects/file-vault/', name: 'file-vault', act: async (p) => {
+      await p.setInputFiles('#file-input', {
+        name: 'note.txt', mimeType: 'text/plain', buffer: Buffer.from('hello vault')
+      });
+      await p.waitForSelector('#files tbody tr');
+      if (!/note\.txt/.test(await p.textContent('#files tbody'))) throw new Error('file not listed');
+      // Release toggles the badge, and the record survives a reload (IndexedDB).
+      await p.click('#files tbody tr >> text=Release');
+      await p.waitForSelector('#files tbody .badge:text("Released")');
+      await p.reload();
+      await p.waitForSelector('#files tbody tr');
+      if (!/Released/.test(await p.textContent('#files tbody'))) throw new Error('state did not persist');
+    } },
+  { path: '/projects/web-editor/', name: 'web-editor', act: async (p) => {
+      await p.waitForSelector('#preview');
+      const heading = p.frameLocator('#preview').locator('h1');
+      if (await heading.textContent() !== 'Hello') throw new Error('preview did not render the starter HTML');
+      // Clicking an element in the preview selects it and opens the inspector.
+      await heading.click();
+      await p.waitForSelector('#inspector:not([hidden])');
+      if (!/h1/.test(await p.textContent('#sel-label'))) throw new Error('wrong element selected');
+      await p.click('.ed-chip[data-css="color:#1d4ed8"]');
+      if (!/color/.test(await p.inputValue('#html-code'))) throw new Error('style was not written into the source');
+    } },
+  { path: '/projects/secret-image/', name: 'secret-image', act: async (p) => {
+      // A wrong passphrase must fail the GCM tag and reveal nothing.
+      await p.fill('#passphrase', 'wrong');
+      await p.click('#unlock');
+      await p.waitForSelector('#gate-status.si-error', { timeout: 30000 });
+      if (await p.locator('#reveal.hidden').count() !== 1) throw new Error('a wrong passphrase revealed the image');
+      // The right one must decrypt to a real image.
+      await p.fill('#passphrase', '12345');
+      await p.click('#unlock');
+      await p.waitForSelector('#reveal:not(.hidden)', { timeout: 30000 });
+      const ok = await p.evaluate(() => {
+        const img = document.getElementById('secret');
+        return img.complete && img.naturalWidth > 0;
+      });
+      if (!ok) throw new Error('decrypted blob did not decode as an image');
+    } },
+  { path: '/projects/minecraft-command/', name: 'minecraft', act: async (p) => {
+      if (await p.textContent('#output-code') !== '/say hello') throw new Error('default command wrong');
+      await p.selectOption('#command', { label: 'give — give an item' });
+      if (await p.textContent('#output-code') !== '/give @p minecraft:diamond 1') {
+        throw new Error(`built: ${await p.textContent('#output-code')}`);
+      }
+      // Out-of-range and malformed arguments must be reported. (The newline
+      // rejection cannot be driven through a single-line <input>, which strips
+      // them; tools/test-logic.mjs exercises checkArg directly for that.)
+      await p.fill('#arg-count', '99999');
+      await p.waitForSelector('.mc-checks .mc-bad');
+      if (!/at most 6400/.test(await p.textContent('#checks'))) {
+        throw new Error(`range check missing: ${await p.textContent('#checks')}`);
+      }
+      await p.fill('#arg-count', '1');
+      await p.fill('#arg-target', 'has space');
+      await p.waitForSelector('.mc-checks .mc-bad');
+      if (!/cannot contain spaces/.test(await p.textContent('#checks'))) {
+        throw new Error('space check missing');
+      }
     } }
 ];
 

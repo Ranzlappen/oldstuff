@@ -35,7 +35,13 @@
         if (key === 'class') node.className = value;
         else if (key === 'text') node.textContent = value;
         else if (key === 'html') node.innerHTML = value;
-        else if (key in node) node[key] = value;
+        else if (key in node) {
+          // Some IDL attributes are read-only even though the name is present
+          // on the element (`list` on an <input>, for one). Fall back to the
+          // content attribute rather than throwing.
+          try { node[key] = value; }
+          catch (err) { node.setAttribute(key, value); }
+        }
         else node.setAttribute(key, value);
       });
     }

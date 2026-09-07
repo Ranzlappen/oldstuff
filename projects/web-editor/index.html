@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live HTML Editor — old.ranzlappen.com</title>
+<meta name="description" content="Type HTML and CSS, see it render live, click elements in the preview to apply style presets, and export the result.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body data-no-chrome>
+
+<div class="ed-app">
+
+  <header class="ed-bar">
+    <a class="ed-brand" href="/">old<span>.</span>ranzlappen</a>
+    <span class="ed-sep">/</span>
+    <span class="ed-title">Live HTML Editor</span>
+
+    <div class="ed-bar__group">
+      <button class="btn btn--sm" data-action="undo" id="undo" title="Undo (Ctrl/Cmd+Z)">↶ Undo</button>
+      <button class="btn btn--sm" data-action="redo" id="redo" title="Redo (Ctrl/Cmd+Shift+Z)">↷ Redo</button>
+    </div>
+
+    <div class="ed-bar__group">
+      <button class="btn btn--sm" data-action="format-html">Format HTML</button>
+      <button class="btn btn--sm" data-action="format-css">Format CSS</button>
+    </div>
+
+    <div class="ed-bar__group">
+      <label class="ed-zoom">
+        <span class="visually-hidden">Preview zoom</span>
+        <select id="zoom">
+          <option value="0.25">25%</option>
+          <option value="0.5">50%</option>
+          <option value="0.75">75%</option>
+          <option value="1" selected>100%</option>
+          <option value="1.5">150%</option>
+          <option value="2">200%</option>
+        </select>
+      </label>
+    </div>
+
+    <span class="ed-spacer"></span>
+
+    <div class="ed-bar__group">
+      <button class="btn btn--sm" data-action="download-html">Save .html</button>
+      <button class="btn btn--sm" data-action="download-zip">Save .zip</button>
+      <button class="btn btn--sm btn--danger" data-action="reset">Reset</button>
+    </div>
+  </header>
+
+  <div class="ed-body">
+
+    <section class="ed-preview">
+      <div class="ed-preview__frame" id="frame-wrap">
+        <iframe id="preview" title="Live preview"></iframe>
+      </div>
+      <p class="ed-status" id="status">Click an element in the preview to select it.</p>
+    </section>
+
+    <section class="ed-editors">
+      <div class="ed-pane">
+        <label class="ed-pane__label" for="html-code">HTML</label>
+        <textarea id="html-code" spellcheck="false" autocomplete="off"></textarea>
+      </div>
+      <div class="ed-pane">
+        <label class="ed-pane__label" for="css-code">CSS</label>
+        <textarea id="css-code" spellcheck="false" autocomplete="off"></textarea>
+      </div>
+    </section>
+
+  </div>
+
+  <aside class="ed-inspector" id="inspector" hidden>
+    <div class="ed-inspector__head">
+      <strong id="sel-label">Nothing selected</strong>
+      <button class="btn btn--sm" data-action="deselect" aria-label="Deselect">✕</button>
+    </div>
+
+    <div class="ed-inspector__body">
+      <h3 class="ed-inspector__group">Size</h3>
+      <div class="ed-chips">
+        <button class="ed-chip" data-css="width:100px">width 100px</button>
+        <button class="ed-chip" data-css="height:100px">height 100px</button>
+        <button class="ed-chip" data-css="padding:10px">padding 10px</button>
+        <button class="ed-chip" data-css="margin:10px">margin 10px</button>
+      </div>
+
+      <h3 class="ed-inspector__group">Colour</h3>
+      <div class="ed-chips">
+        <button class="ed-chip" data-css="background-color:#4ade80">background</button>
+        <button class="ed-chip" data-css="color:#1d4ed8">text colour</button>
+      </div>
+
+      <h3 class="ed-inspector__group">Border</h3>
+      <div class="ed-chips">
+        <button class="ed-chip" data-css="border:2px solid #f87171">border</button>
+        <button class="ed-chip" data-css="outline:2px solid #f87171">outline</button>
+        <button class="ed-chip" data-css="border-radius:8px">radius 8px</button>
+      </div>
+
+      <h3 class="ed-inspector__group">Layout</h3>
+      <div class="ed-chips">
+        <button class="ed-chip" data-css="display:flex">flex</button>
+        <button class="ed-chip" data-css="flex-direction:row">row</button>
+        <button class="ed-chip" data-css="flex-direction:column">column</button>
+        <button class="ed-chip" data-css="align-items:center">align centre</button>
+        <button class="ed-chip" data-css="justify-content:center">justify centre</button>
+        <button class="ed-chip" data-css="gap:8px">gap 8px</button>
+      </div>
+
+      <h3 class="ed-inspector__group">Insert inside</h3>
+      <div class="ed-chips">
+        <button class="ed-chip" data-insert="div">div</button>
+        <button class="ed-chip" data-insert="p">p</button>
+        <button class="ed-chip" data-insert="span">span</button>
+        <button class="ed-chip" data-insert="a">link</button>
+        <button class="ed-chip" data-insert="button">button</button>
+        <button class="ed-chip" data-insert="img">image</button>
+        <button class="ed-chip" data-insert="br">break</button>
+      </div>
+
+      <h3 class="ed-inspector__group">Element</h3>
+      <div class="ed-chips">
+        <button class="ed-chip ed-chip--danger" data-action="remove-selected">Remove</button>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/store.js"></script>
+<script src="zip.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>

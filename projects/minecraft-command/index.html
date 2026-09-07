@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Command Console — old.ranzlappen.com</title>
+<meta name="description" content="Compose and validate Minecraft server commands, then copy them to run yourself.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="mc.css">
+</head>
+<body>
+
+<main id="main" class="wrap">
+
+  <h1>Minecraft Command Console</h1>
+
+  <div class="notice notice--danger">
+    <strong>This one does not send anything.</strong> The original piped
+    whatever you typed into a live server's terminal with
+    <code>shell_exec()</code>. That page had no authentication, so anyone who
+    found the URL had a shell prompt on the machine. It is not reproduced —
+    see <a href="NOTES.md">NOTES.md</a>. What is here instead is a builder: it
+    composes and checks commands for you to paste into your own server console.
+  </div>
+
+  <div class="mc-layout">
+
+    <div>
+      <section class="panel">
+        <h2 class="panel__title">Build a command</h2>
+
+        <div class="field">
+          <label for="command">Command</label>
+          <select id="command"></select>
+        </div>
+
+        <div id="args"></div>
+
+        <p class="small faint" id="describe"></p>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__title">Or write it yourself</h2>
+        <div class="field">
+          <label for="freeform">Raw command</label>
+          <input type="text" id="freeform" placeholder="say hello" autocomplete="off">
+        </div>
+      </section>
+    </div>
+
+    <div>
+      <section class="panel mc-output">
+        <h2 class="panel__title">Result</h2>
+        <pre class="mc-command" id="output"><code id="output-code">/say hello</code></pre>
+        <div class="btn-row">
+          <button class="btn btn--primary btn--sm" id="copy">Copy</button>
+          <button class="btn btn--sm" id="save">Save to history</button>
+        </div>
+        <ul class="mc-checks" id="checks"></ul>
+      </section>
+
+      <section class="panel">
+        <div class="row">
+          <h2 class="panel__title grow" style="margin:0">History</h2>
+          <button class="btn btn--sm btn--danger" id="clear-history">Clear</button>
+        </div>
+        <ul class="mc-history" id="history"></ul>
+        <p class="small faint" id="history-empty">Nothing saved yet.</p>
+      </section>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="/assets/js/chrome.js" data-project="Minecraft Command Console"></script>
+<script src="/assets/js/store.js"></script>
+<script src="mc.js"></script>
+</body>
+</html>

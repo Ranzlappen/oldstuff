@@ -7,8 +7,9 @@
   "scripts": {
     "serve": "node tools/serve.mjs",
     "lint": "node tools/lint.mjs",
+    "test:logic": "node tools/test-logic.mjs",
     "smoke": "node tools/smoke.mjs",
-    "test": "npm run lint && npm run smoke"
+    "test": "npm run lint && npm run test:logic && npm run smoke"
   },
   "devDependencies": {
     "playwright": "^1.56.1"

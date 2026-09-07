@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Snippet Database — old.ranzlappen.com</title>
+<meta name="description" content="Store code snippets by language, filter across every column, and preview HTML snippets in a sandboxed frame.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="code-db.css">
+</head>
+<body>
+
+<main id="main" class="wrap">
+
+  <h1>Code Snippet Database</h1>
+  <p class="muted cdb-lede">
+    A row per snippet: a language, the code, and two free-text fields the
+    original left unnamed (<code>text3</code> and <code>text4</code>) that were
+    used for a title and a note. Filter across all four, edit in place, and
+    preview an HTML snippet in a sandboxed frame.
+  </p>
+
+  <div class="notice">
+    <strong>Snippets live in this browser.</strong> The original wrote to a
+    MySQL table; there is no server here, so rows are kept in
+    <code>localStorage</code> for this domain only. Use <strong>Export</strong>
+    to get a JSON file you can keep or move to another browser.
+  </div>
+
+  <section class="panel">
+    <h2 class="panel__title">Add a snippet</h2>
+    <form id="add-form">
+      <div class="field-grid">
+        <div class="field">
+          <label for="add-language">Language</label>
+          <input type="text" id="add-language" list="language-list" required placeholder="html">
+          <datalist id="language-list"></datalist>
+        </div>
+        <div class="field">
+          <label for="add-title">Title</label>
+          <input type="text" id="add-title" placeholder="Sticky footer">
+        </div>
+        <div class="field">
+          <label for="add-note">Note</label>
+          <input type="text" id="add-note" placeholder="needs a flex parent">
+        </div>
+      </div>
+      <div class="field">
+        <label for="add-code">Code</label>
+        <textarea id="add-code" required rows="6" spellcheck="false"
+                  placeholder="&lt;div class=&quot;wrap&quot;&gt;…&lt;/div&gt;"></textarea>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn--primary">Add snippet</button>
+        <button type="reset" class="btn">Reset form</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="row cdb-toolbar">
+      <div class="grow">
+        <label for="filter" class="visually-hidden">Filter snippets</label>
+        <input type="search" id="filter" placeholder="Filter language, code, title or note…" autocomplete="off">
+      </div>
+      <label class="cdb-inline">
+        <span class="visually-hidden">Filter by language</span>
+        <select id="filter-language"><option value="">All languages</option></select>
+      </label>
+      <button class="btn btn--sm" id="export">Export JSON</button>
+      <button class="btn btn--sm" id="import-button">Import JSON</button>
+      <input type="file" id="import" accept=".json" hidden>
+      <span class="faint small" id="count"></span>
+    </div>
+
+    <div id="rows" class="cdb-rows"></div>
+    <p class="faint small" id="empty">No snippets yet — add one above.</p>
+  </section>
+
+  <p class="small faint">
+    Originally <code>public_html/Project5/index.php</code>.
+    See <a href="NOTES.md">NOTES.md</a> for what changed.
+  </p>
+
+</main>
+
+<dialog id="preview-dialog" class="cdb-preview">
+  <div class="cdb-preview__bar">
+    <strong id="preview-title">Preview</strong>
+    <button class="btn btn--sm" id="preview-close">Close</button>
+  </div>
+  <iframe id="preview-frame" sandbox="allow-scripts" title="Snippet preview"></iframe>
+</dialog>
+
+<script src="/assets/js/chrome.js" data-project="Code Snippet Database"></script>
+<script src="/assets/js/store.js"></script>
+<script src="code-db.js"></script>
+</body>
+</html>

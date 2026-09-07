@@ -1,0 +1,76 @@
+/* Code Snippet Database — row list and preview dialog. */
+
+.cdb-lede { max-width: 46rem; }
+
+.cdb-toolbar { margin-bottom: var(--space-md); }
+.cdb-toolbar #filter { max-width: none; }
+.cdb-inline select { width: auto; min-width: 10rem; }
+
+.cdb-rows { display: flex; flex-direction: column; gap: var(--space-md); }
+
+.cdb-row {
+  border: 1px solid var(--c-border-light);
+  border-radius: var(--radius);
+  background: var(--c-bg-alt);
+  overflow: hidden;
+}
+.cdb-row.is-selected { border-color: var(--c-accent-border); }
+
+.cdb-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--c-surface-alt);
+  border-bottom: 1px solid var(--c-border-light);
+}
+.cdb-row__head input[type="text"] { width: auto; flex: 1 1 8rem; min-width: 6rem; }
+.cdb-row__lang { flex: 0 1 8rem !important; }
+.cdb-row__id { font-size: 0.72rem; color: var(--c-text-faint); font-family: var(--f-mono); }
+.cdb-row__actions { display: flex; gap: var(--space-xs); margin-left: auto; }
+
+.cdb-row__body { padding: var(--space-md); }
+.cdb-row__body textarea {
+  min-height: 7rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+.cdb-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding: 0 var(--space-md) var(--space-sm);
+  font-size: 0.72rem;
+  color: var(--c-text-faint);
+}
+.cdb-dirty { color: var(--c-warning); }
+
+/* ── Preview dialog ────────────────────────────────────────────────────── */
+
+.cdb-preview {
+  width: min(90vw, 60rem);
+  max-width: none;
+  height: min(85vh, 48rem);
+  padding: 0;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-surface);
+  color: var(--c-text);
+  overflow: hidden;
+}
+.cdb-preview::backdrop { background: var(--c-overlay); }
+.cdb-preview[open] { display: flex; flex-direction: column; }
+
+.cdb-preview__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--c-border-light);
+  background: var(--c-surface-alt);
+}
+#preview-frame { flex: 1; width: 100%; border: 0; background: #fff; }

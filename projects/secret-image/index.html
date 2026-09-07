@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secret Image — old.ranzlappen.com</title>
+<meta name="description" content="A passphrase gate in front of a picture — rebuilt so the image is genuinely encrypted rather than merely hidden.">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/old.css">
+<link rel="stylesheet" href="secret.css">
+</head>
+<body>
+
+<main id="main" class="wrap wrap--narrow">
+
+  <h1>Secret Image</h1>
+  <p class="muted">
+    Enter the passphrase to reveal the picture.
+  </p>
+
+  <section class="panel si-gate" id="gate">
+    <form id="unlock-form">
+      <div class="field">
+        <label for="passphrase">Passphrase</label>
+        <input type="password" id="passphrase" autocomplete="off" required
+               placeholder="…" aria-describedby="gate-status">
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn--primary" id="unlock">Unlock</button>
+      </div>
+      <p class="small" id="gate-status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="si-reveal hidden" id="reveal">
+    <figure class="si-figure">
+      <img id="secret" alt="The unlocked picture">
+      <figcaption class="small faint">Decrypted in your browser. Nothing was downloaded in the clear.</figcaption>
+    </figure>
+    <div class="btn-row">
+      <button class="btn btn--sm" id="lock">Lock again</button>
+    </div>
+  </section>
+
+  <hr>
+
+  <h2>How this one works</h2>
+
+  <p class="muted">
+    The original checked the passphrase in PHP and, if it matched, served the
+    file. A static host cannot do that — anything it can serve, it will serve to
+    anyone who asks for the URL. So the check would have been decoration: the
+    image would sit at a guessable path, and the "gate" would be a
+    <code>display: none</code> anyone could step around with developer tools.
+  </p>
+
+  <p class="muted">
+    Instead the image really is encrypted. <code>secret.bin</code> is
+    AES-256-GCM ciphertext; the key is derived from your passphrase with
+    PBKDF2-HMAC-SHA256 over 250,000 iterations, using a salt stored in the
+    file's first 16 bytes. A wrong passphrase fails GCM's authentication tag
+    and produces nothing at all — there is no plaintext on the server to leak.
+  </p>
+
+  <div class="notice notice--warn">
+    <strong>This is a demonstration, not a vault.</strong> The ciphertext is
+    public and the passphrase is short, so it would not survive a determined
+    offline attack. The point is that the gate is real rather than cosmetic —
+    don't put anything you actually care about behind it.
+  </div>
+
+  <p class="small faint">
+    Originally <code>public_html/test/index.php</code> + <code>image.php</code>.
+    See <a href="NOTES.md">NOTES.md</a> for what the original got wrong.
+  </p>
+
+</main>
+
+<script src="/assets/js/chrome.js" data-project="Secret Image"></script>
+<script src="secret.js"></script>
+</body>
+</html>

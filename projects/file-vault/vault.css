@@ -1,0 +1,75 @@
+/* File Vault — drop zone, file table, preview dialog. */
+
+.fv-lede { max-width: 46rem; }
+
+.fv-drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  padding: var(--space-lg);
+  text-align: center;
+  border: 2px dashed var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-bg-alt);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.fv-drop:hover, .fv-drop:focus-visible { border-color: var(--c-accent-border); }
+.fv-drop.is-over {
+  border-color: var(--c-accent);
+  background: var(--c-accent-bg);
+}
+.fv-drop__text { margin: 0; }
+
+.fv-toolbar { margin-bottom: var(--space-md); }
+.fv-toolbar #filter { max-width: none; }
+.fv-inline select { width: auto; min-width: 9rem; }
+
+#files td { vertical-align: middle; }
+#files .fv-name { font-weight: 550; word-break: break-all; }
+#files .fv-actions { display: flex; gap: var(--space-xs); flex-wrap: wrap; }
+.fv-num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fv-type { font-family: var(--f-mono); font-size: 0.75rem; color: var(--c-text-faint); }
+
+.fv-preview {
+  width: min(90vw, 60rem);
+  max-width: none;
+  height: min(85vh, 48rem);
+  padding: 0;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-surface);
+  color: var(--c-text);
+  overflow: hidden;
+}
+.fv-preview::backdrop { background: var(--c-overlay); }
+.fv-preview[open] { display: flex; flex-direction: column; }
+
+.fv-preview__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--c-border-light);
+  background: var(--c-surface-alt);
+}
+.fv-preview__body {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+  padding: var(--space-md);
+}
+.fv-preview__body img,
+.fv-preview__body video { max-width: 100%; max-height: 100%; }
+.fv-preview__body pre {
+  align-self: stretch;
+  width: 100%;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
