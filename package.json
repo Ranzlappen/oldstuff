@@ -12,7 +12,7 @@
     "test": "npm run lint && npm run test:logic && npm run smoke"
   },
   "devDependencies": {
-    "playwright": "^1.56.1"
+    "playwright": "^1.64.0"
   },
   "engines": {
     "node": ">=22"
